@@ -24,10 +24,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: database
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: sodatune
       MYSQL_USER: user
-      MYSQL_PASSWORD: user
+      MYSQL_PASSWORD: password
 
   python:
     build:
