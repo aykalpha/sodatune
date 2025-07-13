@@ -1,0 +1,41 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.laravel
+    container_name: laravel-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./laravel:/var/www/html
+
+  node:
+    image: node:24
+    container_name: react-container
+    working_dir: /usr/src/app
+    volumes:
+      - ./react:/usr/src/app
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm run start"
+  db:
+    image: mysql:9.3
+    container_name: mysql-container
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    container_name: fastapi-container
+    working_dir: /usr/src/app
+    volumes:
+      - ./fastapi:/usr/src/app
+    ports:
+      - "5000:5000"
