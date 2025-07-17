@@ -4,4 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Irrigation extends Model {}
+class Irrigation extends Model
+{
+    protected $fillable = ['irrigated_at', 'user_id'];
+}

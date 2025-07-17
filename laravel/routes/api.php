@@ -13,7 +13,9 @@ Route::middleware('api')->group(function () {
     // 土壌水分量
     Route::get('/soil-moistures', [SoilMoistureController::class, 'index']);
     Route::get('/soil-moistures/latest', [SoilMoistureController::class, 'latest']);
+    Route::post('/soil-moistures', [SoilMoistureController::class, 'store']);
 
     // 潅水
     Route::get('/irrigations', [IrrigationController::class, 'index']);
+    Route::post('/irrigations', [IrrigationController::class, 'store']);
 });

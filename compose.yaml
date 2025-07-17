@@ -39,3 +39,10 @@ services:
       - ./fastapi:/usr/src/app
     ports:
       - "5000:5000"
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit-container
+    ports:
+      - "8025:8025"
+      - "1025:1025"

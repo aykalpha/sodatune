@@ -3,14 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Irrigation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class IrrigationController extends Controller
 {
     // 潅水一覧の取得
     public function index()
     {
-        $irrigations = Irrigation::all();
-
         return response()->json(Irrigation::orderBy('irrigated_at')->get());
+    }
+
+    // 潅水の登録
+    public function store(Request $request)
+    {
+        // TODO:ログイン機能実装後に変更
+        // $userId = Auth::id();
+        $userId = 1;
+
+        $irrigation = Irrigation::create([
+            'irrigated_at' => Carbon::now(),
+            'user_id' => $userId,
+        ]);
+
+        return response()->json($irrigation);
     }
 }

@@ -6,10 +6,10 @@ import {
   Link
 } from 'react-router-dom';
 
-import Information from './components/Information';
-import Login from './components/Login';
-import SoilMoisture from './components/SoilMoisture';
-import Irrigation from './components/Irrigation';
+import Information from './pages/Information';
+import Login from './pages/Login';
+import SoilMoisture from './pages/SoilMoisture';
+import Irrigation from './pages/Irrigation';
 
 function Layout() {
   return (
