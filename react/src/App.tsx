@@ -13,19 +13,9 @@ import Irrigation from './pages/Irrigation';
 
 function Layout() {
   return (
-    <div>
-      <header>
-        <h1>そだちゅーん</h1>
-        <nav>
-          <Link to="/">お知らせ</Link>
-          <Link to="/soil-moisture">土壌水分量</Link>
-          <Link to="/irrigation">灌漑</Link>
-        </nav>
-      </header>
-      <main>
-        <Outlet />
-      </main>
-    </div>
+    <main>
+      <Outlet />
+    </main>
   );
 }
 
