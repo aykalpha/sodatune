@@ -23,79 +23,46 @@ const drynessLabels = {
 } as const;
 type DrynessLevel = keyof typeof drynessLabels;
 
-const mockData: { time: string; moisture: string; dryness: DrynessLevel }[] = [
-  { time: "2025/07/13 00:00", moisture: "70%", dryness: "しっとり" },
-  { time: "2025/07/14 00:00", moisture: "68%", dryness: "しっとり" },
-  { time: "2025/07/16 00:00", moisture: "60%", dryness: "ちょいカラ" },
-  { time: "2025/07/17 00:00", moisture: "55%", dryness: "カラカラ" },
-];
-
 const COLORS = ["white", "#ffffff40"];
 
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  return `${month}/${day}`;
+  return `${date.getMonth() + 1}/${date.getDate()}`;
 };
 
 const StyleInjector = () => {
   const style = `
-@layer utilities {
-@keyframes shine-once {
-  0% {
-    background-position: -200% 0;
-    opacity: 0;
+  @layer utilities {
+    @keyframes shake {
+      0% { transform: rotate(0deg); }
+      20% { transform: rotate(-15deg); }
+      40% { transform: rotate(15deg); }
+      60% { transform: rotate(-10deg); }
+      80% { transform: rotate(10deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .animate-shake-once {
+      animation: shake 0.6s ease-in-out forwards;
+    }
+    .bar-container {
+      width: 100px;
+      height: 10px;
+      background-color: rgba(255 255 255 / 0.2);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background-color: white;
+      border-radius: 9999px;
+    }
+    .bar-animate-initial {
+      animation: bar-grow 1s ease forwards;
+    }
+    .bar-animate-hover {
+      animation: bar-shrink-grow 0.3s ease forwards;
+    }
   }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    background-position: 200% 0;
-    opacity: 0;
-  }
-}
-  @keyframes shake {
-    0% { transform: rotate(0deg); }
-    20% { transform: rotate(-15deg); }
-    40% { transform: rotate(15deg); }
-    60% { transform: rotate(-10deg); }
-    80% { transform: rotate(10deg); }
-    100% { transform: rotate(0deg); }
-  }
-  @keyframes bar-grow {
-    from { width: 0; }
-    to { width: var(--bar-width); }
-  }
-  @keyframes bar-shrink-grow {
-    from { width: 0; }
-    to { width: var(--bar-width); }
-  }
-  .animate-shake-once {
-    animation: shake 0.6s ease-in-out forwards;
-  }
-  .bar-animate-initial {
-    animation: bar-grow 0.8s ease forwards;
-  }
-  .bar-animate-hover {
-    animation: bar-shrink-grow 0.8s ease forwards;
-  }
-  .bell-icon:active {
-    animation: bounce-click 0.4s ease forwards;
-  }
-  .bar-container {
-    width: 100px;
-    height: 10px;
-    background-color: rgba(255 255 255 / 0.2);
-    border-radius: 9999px;
-    overflow: hidden;
-  }
-  .bar-fill {
-    height: 100%;
-    background-color: white;
-    border-radius: 9999px;
-  }
-}
   `;
   return <style dangerouslySetInnerHTML={{ __html: style }} />;
 };
@@ -107,8 +74,9 @@ const Sidebar = () => (
       {[
         { icon: <WaterDropIcon />, label: "土壌水分量" },
         { icon: <OpacityIcon />, label: "潅水" },
-      ].map((item) => (
+      ].map((item, index) => (
         <li
+          key={index}
           className="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-white/20"
         >
           {item.icon}
@@ -122,31 +90,41 @@ const Sidebar = () => (
   </aside>
 );
 
-const PieCard = ({
-  moisture,
-  dryness,
-}: {
+// ここでAPIの karakara_id に対応する名前をマッピング（IDはDBの実際のものに合わせてください）
+const karakaraMap: Record<number, DrynessLevel> = {
+  1: "カラカラ",
+  2: "ちょいカラ",
+  3: "しっとり",
+};
+
+// 型定義
+type SoilMoistureDataRaw = {
+  measured_at: string;
+  moisture: number | string;
+  karakara_id: number;
+};
+
+type SoilMoistureData = {
+  measured_at: string;
   moisture: number;
   dryness: DrynessLevel;
-}) => {
+};
+
+const PieCard = ({ moisture, dryness }: { moisture: number; dryness: DrynessLevel }) => {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
     let start = 0;
-    const duration = 800; // アニメーション全体時間(ms)
-    const incrementTime = 15; // 更新間隔(ms)
-    const steps = duration / incrementTime;
-    const increment = moisture / steps;
-
+    const duration = 800;
     const interval = setInterval(() => {
-      start += increment;
+      start += moisture / (duration / 15);
       if (start >= moisture) {
-        start = moisture;
+        setDisplayValue(moisture);
         clearInterval(interval);
+      } else {
+        setDisplayValue(Math.round(start));
       }
-      setDisplayValue(Math.round(start));
-    }, incrementTime);
-
+    }, 15);
     return () => clearInterval(interval);
   }, [moisture]);
 
@@ -156,165 +134,112 @@ const PieCard = ({
   ];
 
   return (
-    <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-xl p-5 m-5 w-[200px] h-[200px]">
-      <div className=" w-[160px] h-[160px] ">
-        <ResponsiveContainer>
-          <PieChart>
-            <Pie
-              data={pieData}
-              innerRadius={60}
-              outerRadius={75}
-              dataKey="value"
-              startAngle={90.5}
-              endAngle={-269.5}
-              stroke="none"
-              isAnimationActive={true}
-              animationDuration={800}
-              animationEasing="ease-in-out"
-            >
-              {pieData.map((entry, index) => (
-                <Cell fill={COLORS[index]} />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-        {/* @TODO:アニメーションを同時に
-        @TODO:境目を円状に */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-3xl font-bold font-varela">{displayValue}%</span>
-          <span
-            className={`px-3 py-1 text-sm rounded-full ${drynessLabels[dryness]}`}
+    <div className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-xl p-5 m-5 w-[200px] h-[200px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={pieData}
+            innerRadius={60}
+            outerRadius={75}
+            dataKey="value"
+            startAngle={90}
+            endAngle={-270}
+            stroke="none"
+            isAnimationActive
           >
-            {dryness}
-          </span>
-        </div>
+            {pieData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index]} />
+            ))}
+          </Pie>
+        </PieChart>
+      </ResponsiveContainer>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-3xl font-bold font-varela">{displayValue}%</span>
+        <span className={`px-3 py-1 text-sm rounded-full ${drynessLabels[dryness]}`}>
+          {dryness}
+        </span>
       </div>
     </div>
   );
 };
 
 const LineChartCard = ({ data }: { data: { date: string; moisture: number }[] }) => (
-  // 75%が表示されない
   <div className="flex-1 backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-xl p-5 m-5">
     <ResponsiveContainer>
       <LineChart data={data}>
         <CartesianGrid stroke="#ffffff40" />
-        <XAxis
-          dataKey="date"
-          tickFormatter={formatDate}
-          stroke="white"
-          tickLine={false}
-        />
-        <YAxis
-          domain={[0, 100]}
-          tickFormatter={(tick: number) => `${tick}%`}
-          stroke="white"
-          tickLine={false}
-        />
-        {/* <Tooltip
-        // formatter={(value: number) => `${value}%`}
-        // この部分の表示をいいかんじにして
-        // labelFormatter={(value: number) => `${value}%`}
-        /> */}
-        <Line
-          type="monotone"
-          dataKey="moisture"
-          stroke="white"
-          strokeWidth={3}
-          isAnimationActive={true}
-          animationDuration={800}
-          animationEasing="ease-in-out"
-        />
+        <XAxis dataKey="date" tickFormatter={formatDate} stroke="white" tickLine={false} />
+        <YAxis domain={[0, 100]} tickFormatter={(tick) => `${tick}%`} stroke="white" tickLine={false} />
+        <Tooltip formatter={(value: number) => `${value}%`} />
+        <Line type="monotone" dataKey="moisture" stroke="white" strokeWidth={3} isAnimationActive />
       </LineChart>
     </ResponsiveContainer>
   </div>
 );
 
-// テーブル
-const MoistureTable = ({ data }: { data: typeof mockData }) => {
-  const [hoveredRow, setHoveredRow] = useState<number | null>(null);
-  const [hoveredBarIndex, setHoveredBarIndex] = useState<number | null>(null);
-
-  // 初期表示時にバーをアニメーションさせるためフラグ管理
+const MoistureTable = ({ data }: { data: SoilMoistureData[] }) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [initAnimated, setInitAnimated] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => setInitAnimated(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-xl p-5 m-5 h-full">
+    <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-xl p-5 m-5 h-full overflow-auto">
       <table className="w-full text-left">
         <thead>
           <tr className="border-b border-white/30">
             <th className="p-3">受信日時</th>
             <th className="p-3">土壌水分量</th>
             <th className="p-3">
-              カラカラ指数
-              <HelpOutlineIcon className="ml-2 p-0.5" />
-              {/* <div className="absolute left-0 top-full mt-1 w-64 p-3 text-xs text-white bg-black bg-opacity-80 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300 z-10">
-                <p>しっとり: 水分量が十分で健康的です。</p>
-                <p>ちょいカラ: 少し乾燥しています。注意が必要です。</p>
-                <p>カラカラ: 非常に乾燥しています。早急な対策が必要です。</p>
-              </div> */}
+              カラカラ指数 <HelpOutlineIcon className="ml-2 p-0.5" />
             </th>
             <th className="p-3">アラート</th>
           </tr>
         </thead>
         <tbody>
           {data.map((row, i) => {
-            const moistureValue = parseInt(row.moisture.replace("%", ""));
-            // 複数行がホバーの時に反応してしまう
+            const moistureValue = row.moisture; // 数値のまま
             return (
               <tr
                 key={i}
-                className="border-t border-white/20 duration-300 ease-in-out hover:bg-white/20 hover:scale-[1.01]"
-                onMouseEnter={() => {
-                  setHoveredRow(i);
-                  setHoveredBarIndex(i);
-                }}
-                onMouseLeave={() => {
-                  setHoveredRow(null);
-                  setHoveredBarIndex(null);
-                }}
+                className="border-t border-white/20 hover:bg-white/20 hover:scale-[1.01] transition-transform"
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
               >
-                <td className="p-3 font-varela">{row.time}</td>
+                <td className="p-3 font-varela">{row.measured_at}</td>
                 <td className="p-3">
                   <div className="flex items-center gap-5 font-varela">
-                    <span>{row.moisture}</span>
+                    <span>{moistureValue}%</span>
                     <div
                       className="bar-container"
                       style={{ "--bar-width": `${moistureValue}%` } as React.CSSProperties}
                     >
-                      <div className="bar-container">
-                        <div
-                          className={
-                            "bar-fill" +
-                            (initAnimated && hoveredBarIndex === null ? " bar-animate-initial" : "") +
-                            (hoveredBarIndex === i ? " bar-animate-hover" : "")
-                          }
-                          style={{ width: `${moistureValue}%` }}
-                        />
-                      </div>
+                      <div
+                        className={
+                          "bar-fill" +
+                          (initAnimated && hoveredIndex === null ? " bar-animate-initial" : "") +
+                          (hoveredIndex === i ? " bar-animate-hover" : "")
+                        }
+                        style={{ width: `${moistureValue}%` }}
+                      />
                     </div>
                   </div>
                 </td>
-
                 <td className="p-3">
-                  <span
-                    className={`px-3 py-1 text-sm rounded-full ${drynessLabels[row.dryness]}`}
-                  >
+                  <span className={`px-3 py-1 text-sm rounded-full ${drynessLabels[row.dryness]}`}>
                     {row.dryness}
                   </span>
                 </td>
-                {/* @TODO:アラートが初期で揺れるようにして */}
                 <td className="p-3">
                   <BellIcon
-                    className={`w-5 h-5 bell-icon ${hoveredRow === i ? "animate-shake-once" : "bell-icon-fadeout"}`}
+                    className={`w-5 h-5 bell-icon ${hoveredIndex === i ? "animate-shake-once" : ""}`}
                     onClick={(e) => {
                       const el = e.currentTarget as unknown as HTMLElement;
                       el.classList.remove("animate-shake-once");
-                      void el.offsetWidth;
+                      void el.offsetWidth; // 再描画を強制してアニメーションをリトリガー
                       el.classList.add("animate-shake-once");
                     }}
                   />
@@ -329,11 +254,42 @@ const MoistureTable = ({ data }: { data: typeof mockData }) => {
 };
 
 export default function SoilMoisture() {
-  const latest = mockData[mockData.length - 1];
-  const currentMoisture = Number(latest.moisture.replace("%", ""));
-  const chartData = mockData.map(({ time, moisture }) => ({
-    date: time,
-    moisture: Number(moisture.replace("%", "")),
+  const [data, setData] = useState<SoilMoistureData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/soil-moistures")
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then((json: SoilMoistureDataRaw[]) => {
+        // karakara_idをdrynessラベルに変換してdataセット
+        const formatted = json.map((item) => ({
+          measured_at: item.measured_at,
+          moisture: typeof item.moisture === "string" ? parseInt(item.moisture.replace("%", ""), 10) : item.moisture,
+          dryness: karakaraMap[item.karakara_id] ?? "しっとり",
+        }));
+        setData(formatted);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setError(e.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div className="text-white p-5">読み込み中...</div>;
+  if (error) return <div className="text-red-500 p-5">データ取得エラー: {error}</div>;
+  if (data.length === 0) return <div className="text-white p-5">データがありません</div>;
+
+  const latest = data[data.length - 1];
+  const currentMoisture = latest.moisture;
+
+  const chartData = data.map(({ measured_at, moisture }) => ({
+    date: measured_at,
+    moisture,
   }));
 
   return (
@@ -344,11 +300,11 @@ export default function SoilMoisture() {
       <StyleInjector />
       <Sidebar />
       <main className="flex flex-col w-full h-full">
-        <div className="flex">
+        <div className="flex flex-wrap">
           <PieCard moisture={currentMoisture} dryness={latest.dryness} />
           <LineChartCard data={chartData} />
         </div>
-        <MoistureTable data={mockData} />
+        <MoistureTable data={data} />
       </main>
     </div>
   );
