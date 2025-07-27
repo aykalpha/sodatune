@@ -21,7 +21,7 @@ class SoilMoistureAlert extends Mailable
     public function build()
     {
         return $this
-            ->subject('【アラート】土壌水分量がしきい値を下回りました')
-            ->markdown('emails.soil_moisture_alert');
+            ->subject('【そだちゅーん】土壌水分量が閾値を下回りました。')
+            ->text('emails.soil_moisture_alert');
     }
 }

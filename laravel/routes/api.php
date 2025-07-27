@@ -5,6 +5,7 @@ use App\Http\Controllers\KarakaraController;
 use App\Http\Controllers\SoilMoistureController;
 use App\Http\Controllers\IrrigationController;
 
+
 Route::middleware('api')->group(function () {
 
     // カラカラ指数
