@@ -28,6 +28,7 @@ services:
       MYSQL_DATABASE: sodatune
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+      TZ: Asia/Tokyo
 
   python:
     build:

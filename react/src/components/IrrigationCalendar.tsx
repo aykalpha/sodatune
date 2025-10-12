@@ -41,7 +41,7 @@ export default function IrrigationCalendar() {
       }, {} as Record<number, Irrigation[]>);
 
     return (
-      <div key={`${y}-${m}`} className="flex flex-col bg-white/10 rounded-3xl p-4 shadow-xl">
+      <div key={`${y}-${m}`} className="flex flex-col bg-white/10 border border-white/20 rounded-3xl p-4 shadow-xl">
         <h3 className="text-center font-semibold border-b border-white/50 mb-2 pb-2">
           {getMonthTitle(y, m)}
         </h3>

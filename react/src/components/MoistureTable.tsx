@@ -4,23 +4,18 @@ import AnimatedIcon from "./AnimatedIcon";
 import KarakaraLabel from "./KarakaraLabel";
 import MoistureCell from "./MoistureCell";
 import TableContainer from "./TableContainer";
-
-export type SoilMoistureData = {
-  measured_at: string;
-  moisture: number;
-  karakara_id: number;
-};
+import type { SoilMoisture } from "../constants/type";
 
 type MoistureTableProps = {
-  data: SoilMoistureData[];
+  soilMoisture: SoilMoisture[];
 };
 
-export default function MoistureTable({ data }: MoistureTableProps) {
+export default function MoistureTable({ soilMoisture }: MoistureTableProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <TableContainer headers={["測定日時", "土壌水分量", "カラカラ指数", "アラート"]}>
-      {data.map((row, i) => {
+      {soilMoisture.map((row, i) => {
         const isHovered = hoveredIndex === i;
         return (
           <tr
@@ -37,7 +32,9 @@ export default function MoistureTable({ data }: MoistureTableProps) {
               <KarakaraLabel karakara_id={row.karakara_id} isHovered={isHovered} />
             </td>
             <td>
-              <AnimatedIcon Icon={BellIcon} isHovered={isHovered} />
+              <div className={row.notified ? "opacity-10" : ""}>
+                <AnimatedIcon Icon={BellIcon} isHovered={isHovered}/>
+              </div>
             </td>
           </tr>
         );

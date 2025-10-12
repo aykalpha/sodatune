@@ -1,5 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import Card from "./Card";
+import type { SoilMoisture } from "../constants/type";
 
 const formatDate = (measured_at: string) => {
   const date = new Date(measured_at);
@@ -7,14 +8,14 @@ const formatDate = (measured_at: string) => {
 };
 
 type LineChartCardProps = {
-  data: { measured_at: string; moisture: number }[];
+  soilMoisture: SoilMoisture[];
 };
 
-export default function LineChartCard({ data }: LineChartCardProps) {
+export default function LineChartCard({ soilMoisture }: LineChartCardProps) {
   return (
     <Card>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
+        <LineChart data={soilMoisture} margin={{ top: 10, right: 25, left: 10, bottom: 10 }}>
           <CartesianGrid stroke="rgba(255,255,255,0.2)" />
           <XAxis
             dataKey="measured_at"
@@ -26,6 +27,7 @@ export default function LineChartCard({ data }: LineChartCardProps) {
             tick={{ fontSize: 14 }}
           />
           <YAxis
+           domain={[0, 100]}
             ticks={[0, 25, 50, 75, 100]}
             tickFormatter={(tick) => `${tick}%`}
             stroke="white"

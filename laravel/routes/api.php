@@ -9,11 +9,11 @@ use App\Http\Controllers\IrrigationController;
 Route::middleware('api')->group(function () {
 
     // カラカラ指数
-    Route::get('/karakaras', [KarakaraController::class, 'index']);
+    // @TODO:カラカラ指数をDBより取得する形式に変更
+    // Route::get('/karakaras', [KarakaraController::class, 'index']);
 
     // 土壌水分量
     Route::get('/soil-moistures', [SoilMoistureController::class, 'index']);
-    Route::get('/soil-moistures/latest', [SoilMoistureController::class, 'latest']);
     Route::post('/soil-moistures', [SoilMoistureController::class, 'store']);
 
     // 潅水

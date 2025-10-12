@@ -17,4 +17,9 @@ class SoilMoisture extends Model
     {
         return $this->belongsTo(Karakara::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

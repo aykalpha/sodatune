@@ -2,26 +2,26 @@ import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import Card from "./Card";
 import KarakaraLabel from "./KarakaraLabel";
+import type { SoilMoisture } from "../constants/type";
 
 type PieGraphProps = {
-  moisture: number;
-  karakara_id: number;
+  latest: SoilMoisture;
 };
 
-export default function PieGraph({ moisture, karakara_id }: PieGraphProps) {
+export default function PieGraph({ latest }: PieGraphProps) {
   const [displayMoisture, setDisplayMoisture] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     let start = 0;
     const intervalTime = 15;
-    const step = Math.round(moisture / (500 / intervalTime));
+    const step = Math.round(latest.moisture / (500 / intervalTime));
     const interval = setInterval(() => {
       start += step;
-      setDisplayMoisture(start >= moisture ? moisture : start);
+      setDisplayMoisture(start >= latest.moisture ? latest.moisture : start);
     }, intervalTime);
     return () => clearInterval(interval);
-  }, [moisture]);
+  }, [latest.moisture]);
 
   const pieData = [
     { color: "white", value: displayMoisture },
@@ -58,7 +58,7 @@ export default function PieGraph({ moisture, karakara_id }: PieGraphProps) {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <KarakaraLabel karakara_id={karakara_id} isHovered={isHovered} />
+          <KarakaraLabel karakara_id={latest.karakara_id} isHovered={isHovered} />
         </div>
       </div>
     </Card>

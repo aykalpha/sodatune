@@ -13,6 +13,9 @@ export default function IrrigationButton() {
   const navigate = useNavigate();
 
   const handleClick = async () => {
+    const nowJST = new Date()
+      .toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" })
+      .replace(" ", "T") + "+09:00";
     axios
       .post(IRRIGATIONS, { irrigated_at: new Date() })
       .then(() => setFilled(true))

@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { IRRIGATIONS } from "../constants/api";
 import TableContainer from "./TableContainer";
-
-interface Irrigation {
-  id: number;
-  irrigated_at: string;
-  user_id: number;
-}
+import type { Irrigation } from "../constants/type";
 
 export default function IrrigationTable() {
   const [irrigations, setIrrigations] = useState<Irrigation[]>([]);
