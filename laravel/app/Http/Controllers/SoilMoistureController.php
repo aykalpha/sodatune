@@ -13,10 +13,7 @@ class SoilMoistureController extends Controller
     // 土壌水分量一覧を取得
     public function index()
     {
-        $soilMoistures = SoilMoisture::with('user')
-            ->orderBy('measured_at', 'desc')
-            ->get();
-        return response()->json($soilMoistures);
+        return response()->json(SoilMoisture::orderBy('measured_at', 'desc')->get());
     }
 
     // 土壌水分量を登録

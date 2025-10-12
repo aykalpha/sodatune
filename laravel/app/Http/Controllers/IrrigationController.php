@@ -12,7 +12,7 @@ class IrrigationController extends Controller
     // 潅水一覧の取得
     public function index()
     {
-        return response()->json(Irrigation::orderBy('irrigated_at', 'desc')->get());
+        return response()->json(Irrigation::with('user')->orderBy('irrigated_at', 'desc')->get());
     }
 
     // 潅水の登録
