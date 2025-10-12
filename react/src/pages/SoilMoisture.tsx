@@ -27,15 +27,15 @@ export default function SoilMoisture() {
 
   return (
     <div
-      className="font-kiwi text-white bg-center bg-cover flex h-screen gap-5 p-5"
+      className="font-kiwi text-white bg-center bg-cover flex h-screen gap-10 p-10"
       style={{ backgroundImage: "url(/background.png)" }}
     >
       <div className="flex-[1]">
         <Sidebar />
       </div>
 
-      <div className="flex-[5] flex flex-col gap-5 h-full">
-        <div className="flex gap-5 h-[200px]">
+      <div className="flex-[5] flex flex-col gap-10 h-full">
+        <div className="flex gap-10 h-[200px]">
           <div className="w-[200px]">
             <PieGraph moisture={latest.moisture} karakara_id={latest.karakara_id} />
           </div>
