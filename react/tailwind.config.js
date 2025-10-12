@@ -7,8 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        kiwi: ["'Kiwi Maru'", "serif"],
-        varela: ["'Varela Round'", "sans-serif"],
+       kiwi: ["'Kiwi Maru'", "serif"],
       },
     },
   },

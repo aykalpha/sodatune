@@ -51,7 +51,7 @@ export default function PieGraph({ moisture, karakara_id }: PieGraphProps) {
 
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
         {/* 数値 */}
-        <span className="text-3xl font-bold font-varela">{displayMoisture}%</span>
+        <span className="text-3xl font-bold">{displayMoisture}%</span>
 
         {/* カラカラ指数 */}
         <div

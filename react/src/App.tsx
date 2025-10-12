@@ -1,18 +1,26 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from 'react-router-dom';
-import SoilMoisture from './pages/SoilMoisture';
-import Irrigation from './pages/Irrigation';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import SoilMoisture from "./pages/SoilMoisture";
+import Irrigation from "./pages/Irrigation";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-          <Route path="/" element={<SoilMoisture />} />
-          <Route path="/irrigation" element={<Irrigation />} />
-      </Routes>
+      {/* 全ページ共通のレイアウト */}
+      <div className="font-kiwi text-white bg-center bg-cover flex h-screen gap-10 p-10">
+        {/* 左：サイドバー（固定） */}
+        <div className="flex-[1]">
+          <Sidebar />
+        </div>
+
+        {/* 右：ページごとのメイン部分 */}
+        <div className="flex-[5] flex flex-col gap-10 h-full overflow-hidden">
+          <Routes>
+            <Route path="/" element={<SoilMoisture />} />
+            <Route path="/irrigation" element={<Irrigation />} />
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   );
 }

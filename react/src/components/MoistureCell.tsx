@@ -18,7 +18,7 @@ const MoistureCell: FC<MoistureCellProps> = ({ moisture, isHovered}) => {
   return (
     <div className="flex items-center gap-2">
       {/* 数値表示 */}
-      <span className="font-varela">{moisture}%</span>
+      <span>{moisture}%</span>
 
       {/* バー */}
       <div className="bar-container">

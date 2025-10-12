@@ -4,7 +4,7 @@ export const KarakaraList: {
   base: string; 
   hover: string; 
 }[] = [
-  { id: 1, label: "しっとり", base: "bg-sky-400/70 border border-sky-400", hover: "bg-sky-500/30 border border-sky-500" },
+  { id: 1, label: "しっとり", base: "bg-cyan-400/70 border border-cyan-400", hover: "bg-cyan-500/30 border border-cyan-500" },
   { id: 2, label: "ちょいカラ", base: "bg-yellow-400/70 border border-yellow-400", hover: "bg-yellow-500/30 border border-yellow-500" },
   { id: 3, label: "カラカラ", base: "bg-red-400/70 border border-red-400", hover: "bg-red-500/30 border border-red-500" },
 ];
