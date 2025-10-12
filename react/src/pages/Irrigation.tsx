@@ -1,14 +1,15 @@
-import IrrigationButton from '../components/IrrigationButton';
-import IrrigationCalendar from '../components/IrrigationCalendar';
-import IrrigationTable from '../components/IrrigationTable';
+// @TODO:修正
+// import IrrigationButton from '../components/IrrigationButton';
+// import IrrigationCalendar from '../components/IrrigationCalendar';
+// import IrrigationTable from '../components/IrrigationTable';
 
 function Irrigation() {
   return (
     <div>
       <h2>灌漑</h2>
-      <IrrigationButton />
+      {/* <IrrigationButton />
       <IrrigationCalendar />
-      <IrrigationTable />
+      <IrrigationTable /> */}
     </div>
   );
 }

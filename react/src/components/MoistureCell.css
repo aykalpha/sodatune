@@ -1,0 +1,25 @@
+/* バーコンテナ */
+.bar-container {
+  width: 100px;
+  height: 10px;
+  background-color: rgba(255 255 255 / 0.2);
+  border-radius: 9999px;
+}
+
+/* バー本体 */
+.bar-fill {
+  height: 100%;
+  background-color: white;
+  border-radius: 9999px;
+}
+
+/* アニメーション */
+@keyframes bar-grow {
+  from { width: 0%; }
+  to   { width: var(--bar-width); }
+}
+
+/* アニメーションクラス */
+.bar-animate {
+  animation: bar-grow 1s ease forwards;
+}
