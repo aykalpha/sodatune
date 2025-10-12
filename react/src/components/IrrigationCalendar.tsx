@@ -45,7 +45,7 @@ export default function IrrigationCalendar() {
         <h3 className="text-center font-semibold border-b border-white/50 mb-2 pb-2">
           {getMonthTitle(y, m)}
         </h3>
-        <div className="grid gap-1 p-1" style={{ gridTemplateColumns: "repeat(7, 1fr)" }}>
+        <div className="grid gap-2 p-1" style={{ gridTemplateColumns: "repeat(7, 1fr)" }}>
           {[...Array(getDaysInMonth(y, m))].map((_, i) => {
             const d = i + 1;
             const irrigated = !!irrigationMap[d];

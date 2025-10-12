@@ -21,7 +21,7 @@ export default function IrrigationTable() {
 
   return (
     <TableContainer
-      headers={["潅水日時", "ユーザーID",]}
+      headers={["潅水日時", "ユーザー",]}
     >
       {irrigations.map((row, i) => {
         const isHovered = hoveredIndex === i;
@@ -35,6 +35,7 @@ export default function IrrigationTable() {
             onMouseLeave={() => setHoveredIndex(null)}
           >
             <td>{row.irrigated_at}</td>
+            <td>{row.user.name}</td>
           </tr>
         );
       })}

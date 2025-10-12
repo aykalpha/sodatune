@@ -32,7 +32,7 @@ export default function MoistureTable({ soilMoisture }: MoistureTableProps) {
               <KarakaraLabel karakara_id={row.karakara_id} isHovered={isHovered} />
             </td>
             <td>
-              <div className={row.notified ? "opacity-10" : ""}>
+              <div className={row.notified ? "" : "opacity-10"}>
                 <AnimatedIcon Icon={BellIcon} isHovered={isHovered}/>
               </div>
             </td>

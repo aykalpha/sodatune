@@ -15,7 +15,7 @@ export default function PieGraph({ latest }: PieGraphProps) {
   useEffect(() => {
     let start = 0;
     const intervalTime = 15;
-    const step = Math.round(latest.moisture / (500 / intervalTime));
+    const step = Math.max(1, Math.round(latest.moisture / (500 / intervalTime)));
     const interval = setInterval(() => {
       start += step;
       setDisplayMoisture(start >= latest.moisture ? latest.moisture : start);

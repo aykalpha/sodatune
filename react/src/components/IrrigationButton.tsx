@@ -13,11 +13,10 @@ export default function IrrigationButton() {
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    const nowJST = new Date()
-      .toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" })
-      .replace(" ", "T") + "+09:00";
+      const now = new Date();
+  const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000); // UTC+9 に補正
     axios
-      .post(IRRIGATIONS, { irrigated_at: new Date() })
+      .post(IRRIGATIONS, { irrigated_at: jst })
       .then(() => setFilled(true))
       .catch(console.error);
   };

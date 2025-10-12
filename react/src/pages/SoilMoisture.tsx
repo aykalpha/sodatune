@@ -19,13 +19,11 @@ export default function SoilMoisture() {
     return <></>;
   }
 
-  const latest = soilMoisture[soilMoisture.length - 1];
-
   return (
       <div className="flex-[5] flex flex-col gap-10 h-full">
         <div className="flex gap-10 h-[200px]">
           <div className="w-[200px]">
-            <PieGraph latest={latest} />
+            <PieGraph latest={soilMoisture[0]} />
           </div>
           <div className="flex-1">
             <LineChartCard soilMoisture={soilMoisture} />

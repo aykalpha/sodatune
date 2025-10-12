@@ -1,3 +1,8 @@
+export type User = {
+  id: string;
+  name: number;
+};
+
 export type SoilMoisture = {
   measured_at: string;
   moisture: number;
@@ -8,5 +13,5 @@ export type SoilMoisture = {
 export type Irrigation = {
   id: number;
   irrigated_at: string;
-  user_id: number;
+  user: User;
 };
