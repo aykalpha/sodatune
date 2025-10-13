@@ -1,12 +1,18 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 
-export default function Card({ children }: { children: ReactNode }) {
+type CardProps = {
+  children: ReactNode;
+  onAnimationComplete?: () => void;
+};
+
+export default function Card({ children, onAnimationComplete }: CardProps) {
   return (
     <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.5}}
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      onAnimationComplete={onAnimationComplete}
       className="
         backdrop-blur
         bg-white/10
