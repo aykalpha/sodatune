@@ -2,20 +2,23 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import Card from "./Card";
 import type { SoilMoisture } from "../constants/type";
 
-const formatDate = (measured_at: string) => {
-  const date = new Date(measured_at);
-  return `${date.getMonth() + 1}/${date.getDate()}`;
-};
-
 type LineChartCardProps = {
   soilMoisture: SoilMoisture[];
 };
 
 export default function LineChartCard({ soilMoisture }: LineChartCardProps) {
+
+  const formatDate = (measured_at: string) => {
+    const date = new Date(measured_at);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
   return (
     <Card>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={soilMoisture} margin={{ top: 10, right: 25, left: 10, bottom: 10 }}>
+        <LineChart data={soilMoisture.slice(-12)} margin={{ top: 10, right: 25, left: 10, bottom: 10 }}>
           <CartesianGrid stroke="rgba(255,255,255,0.2)" />
           <XAxis
             dataKey="measured_at"

@@ -32,17 +32,6 @@ services:
     volumes:
       - ./mysql/conf.d:/etc/mysql/conf.d
 
-  python:
-    build:
-      context: .
-      dockerfile: Dockerfile.fastapi
-    container_name: fastapi-container
-    working_dir: /usr/src/app
-    volumes:
-      - ./fastapi:/usr/src/app
-    ports:
-      - "5000:5000"
-
   mailpit:
     image: axllent/mailpit
     container_name: mailpit-container

@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             KarakarasTableSeeder::class,
             UsersTableSeeder::class,
-            SoilMoisturesTableSeeder::class,
+            // SoilMoisturesTableSeeder::class,
             // IrrigationsTableSeeder::class,
         ]);
     }
