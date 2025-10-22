@@ -3,6 +3,8 @@ import Sidebar from "./components/Sidebar";
 import SoilMoisture from "./pages/SoilMoisture";
 import Irrigation from "./pages/Irrigation";
 
+import IntervalSelectorPreview  from "./components/IntervalSelectorPreview";
+
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<SoilMoisture />} />
             <Route path="/irrigation" element={<Irrigation />} />
+            <Route path="/aa" element={<IntervalSelectorPreview />} />
           </Routes>
         </div>
       </div>
