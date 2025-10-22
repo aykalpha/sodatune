@@ -2,12 +2,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import OpacityIcon from "@mui/icons-material/Opacity";
-import LogoutIcon from "@mui/icons-material/Logout"; // ← 追加！
+import LogoutIcon from "@mui/icons-material/Logout";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import AgricultureIcon from "@mui/icons-material/Agriculture";
 import Card from "./Card";
 import AnimatedIcon from "./AnimatedIcon";
 import Logo from "./Logo";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
+//@TODO:潅水のカレンダーが白すぎ問題
+//@TODO:ロゴがなじんでいない
+//@TODO:ユーザーの余白なさすぎ
+//@TODO:土壌水分量ではなく土壌分析がいいかも（虫眼鏡アイコンとかで。EC値、日照時間、温度、湿度とかも管理したい）
 export default function Sidebar() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const navigate = useNavigate();
@@ -15,6 +22,9 @@ export default function Sidebar() {
   const menuItems = [
     { icon: WaterDropIcon, label: "土壌水分量", path: "/" },
     { icon: OpacityIcon, label: "潅水", path: "/irrigation" },
+    { icon: WbSunnyIcon, label: "天気", path: "/weather" },
+    { icon: EditNoteIcon, label: "記録", path: "/journal" },
+    { icon: AgricultureIcon, label: "作業管理", path: "/manager" },
   ];
 
   return (

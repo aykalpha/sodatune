@@ -7,7 +7,7 @@ import Card from "../components/Card";
 import { SOIL_MOISTURES } from "../constants/api";
 import type { SoilMoisture } from "../constants/type";
 
-export default function SoilMoisture() {
+export default function Manager() {
   const [soilMoisture, setSoilMoisture] = useState<SoilMoisture[]>([]);
   const [currentInterval, setCurrentInterval] = useState("6時間");
   const intervals = [
@@ -36,36 +36,36 @@ export default function SoilMoisture() {
             @TODO:ラベルにする
             @TODO:色を青に統一する */}
          <Card>
-          <div className="flex flex-col gap-2">
-            <div>
-              <h3 className="text-lg font-semibold">計測間隔</h3>
-              <p className="text-sm text-white/50">
-                現在の間隔は「{currentInterval}」に設定されています。
-              </p>
-            </div>
-            {intervals.map((row, i) => (
-              <div key={i} className="flex gap-2">
-                {row.map((label) => {
-                  const isActive = currentInterval === label;
-                  return (
-                    <button
-                      key={label}
-                      onClick={() => setCurrentInterval(label)}
-                      className={`flex-1 rounded-lg border p-2 text-sm transition-all
-                        ${
-                          isActive
-                            ? "bg-green-500 hover:bg-green-400 border-green-400"
-                            : "bg-white/10 hover:bg-white/20 border-white/10"
-                        }`}
-                    >
-                      {label}
-                    </button>
-                  );
-                })}
-              </div>
-            ))}
+        <div className="flex flex-col gap-2">
+          <div>
+            <h3 className="text-lg font-semibold">計測間隔</h3>
+            <p className="text-sm text-white/50">
+              現在の間隔は「{currentInterval}」に設定されています。
+            </p>
           </div>
-        </Card>
+          {intervals.map((row, i) => (
+            <div key={i} className="flex gap-2">
+              {row.map((label) => {
+                const isActive = currentInterval === label;
+                return (
+                  <button
+                    key={label}
+                    onClick={() => setCurrentInterval(label)}
+                    className={`flex-1 rounded-lg border p-2 text-sm transition-all
+                      ${
+                        isActive
+                          ? "bg-green-500 hover:bg-green-400 border-green-400"
+                          : "bg-white/10 hover:bg-white/20 border-white/10"
+                      }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </Card>
           </div>
           <div className="flex-1">
             <LineChartCard soilMoisture={soilMoisture} />

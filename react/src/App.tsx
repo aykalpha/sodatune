@@ -2,8 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import SoilMoisture from "./pages/SoilMoisture";
 import Irrigation from "./pages/Irrigation";
-
-import IntervalSelectorPreview  from "./components/IntervalSelectorPreview";
+import Weather from "./pages/Weather";
+import Journal from "./pages/Journal";
+import Manager from "./pages/Manager";
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
           <Routes>
             <Route path="/" element={<SoilMoisture />} />
             <Route path="/irrigation" element={<Irrigation />} />
-            <Route path="/aa" element={<IntervalSelectorPreview />} />
+            <Route path="/weather" element={<Weather />} />
+            <Route path="/journal" element={<Journal />} />
+            <Route path="/manager" element={<Manager />} />
           </Routes>
         </div>
       </div>
