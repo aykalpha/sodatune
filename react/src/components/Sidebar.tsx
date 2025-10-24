@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import ScienceIcon from "@mui/icons-material/Science";
 import OpacityIcon from "@mui/icons-material/Opacity";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import LogoutIcon from "@mui/icons-material/Logout";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import EditNoteIcon from "@mui/icons-material/EditNote";
@@ -20,11 +21,12 @@ export default function Sidebar() {
   const navigate = useNavigate();
 
   const menuItems = [
-    { icon: WaterDropIcon, label: "土壌水分量", path: "/" },
-    { icon: OpacityIcon, label: "潅水", path: "/irrigation" },
+    { icon: ScienceIcon, label: "分析", path: "/" },
     { icon: WbSunnyIcon, label: "天気", path: "/weather" },
     { icon: EditNoteIcon, label: "記録", path: "/journal" },
-    { icon: AgricultureIcon, label: "作業管理", path: "/manager" },
+    { icon: AssignmentTurnedInIcon, label: "管理", path: "/manager" },
+    { icon: OpacityIcon, label: "潅水", path: "/irrigation" },
+    { icon: AgricultureIcon, label: "収穫", path: "/harvest" },
   ];
 
   return (
