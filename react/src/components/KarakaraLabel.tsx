@@ -1,14 +1,5 @@
-export const KarakaraList: { 
-  id: number; 
-  label: string; 
-  base: string; 
-  hover: string; 
-}[] = [
-  { id: 1, label: "カラカラ", base: "bg-red-400/70 border border-red-400", hover: "bg-red-500/30 border border-red-500" },
-  { id: 2, label: "ちょいカラ", base: "bg-yellow-400/70 border border-yellow-400", hover: "bg-yellow-500/30 border border-yellow-500" },
-  { id: 3, label: "しっとり", base: "bg-cyan-400/70 border border-cyan-400", hover: "bg-cyan-500/30 border border-cyan-500" },
-];
 
+import { KarakaraList } from "../constants/constants";
 type KarakaraLabelProps = {
   karakara_id: number;
   isHovered: boolean;

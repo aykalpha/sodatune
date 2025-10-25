@@ -3,7 +3,7 @@ import { Scrollbars } from "react-custom-scrollbars-2";
 import React from "react";
 
 type TableContainerProps = {
-  headers: string[];
+  headers: (string | React.ReactNode)[];
   children: React.ReactNode;
 };
 
