@@ -8,7 +8,7 @@ interface Irrigation {
   user_id: number;
 }
 
-export default function IrrigationCalendar() {
+export default function JournalCalendar() {
   const [irrigations, setIrrigations] = useState<Irrigation[]>([]);
   const [hovered, setHovered] = useState<string | null>(null);
 
@@ -19,7 +19,7 @@ export default function IrrigationCalendar() {
   }, []);
 
   const now = new Date();
-  const months = Array.from({ length: 4 }, (_, i) => {
+  const months = Array.from({ length: 1 }, (_, i) => {
     const d = new Date(now.getFullYear(), now.getMonth() - 3 + i);
     return { y: d.getFullYear(), m: d.getMonth() };
   });
@@ -71,8 +71,8 @@ export default function IrrigationCalendar() {
   };
 
   return (
-      <div className="grid gap-5 grid-cols-4">
-        {months.map(({ y, m }) => renderCalendar(y, m))}
-      </div>
+    <div className="w-full">
+      {months.map(({ y, m }) => renderCalendar(y, m))}
+    </div>
   );
 }
