@@ -16,9 +16,25 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 //@TODO:ロゴがなじんでいない
 //@TODO:ユーザーの余白なさすぎ
 //@TODO:土壌水分量ではなく土壌分析がいいかも（虫眼鏡アイコンとかで。EC値、日照時間、温度、湿度とかも管理したい）
-export default function Sidebar() {
+type SidebarProps = {
+  user: {
+    name: string;
+    avatar?: string;
+    email?: string;
+  };
+};
+
+export default function Sidebar({ user }: SidebarProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const navigate = useNavigate();
+
+    const handleLogout = () => {
+    // LaravelのログアウトURLに飛ぶ
+    window.location.href = "http://localhost:8000/logout";
+
+    // localStorageのトークン削除（保険）
+    localStorage.removeItem("token");
+  };
 
   const menuItems = [
     { icon: ScienceIcon, label: "分析", path: "/" },
@@ -34,12 +50,16 @@ export default function Sidebar() {
       <div className="flex flex-col h-full justify-between">
         <div>
           {/* @TODO:ロゴは分割した独自のアニメーションでもいい */}
-          <Logo />
+        <img
+          src={user.avatar}
+          alt="avatar"
+          className="w-10 h-10 rounded-full border border-white"
+        />
           <div className="flex items-center gap-2">
             <AccountCircleIcon sx={{ fontSize: 48 }} />
             <div className="flex flex-col justify-center leading-tight">
-              <span>あやか</span>
-              <span className="text-xs text-white/70">aykalpha@gmail.com</span>
+              <span>{user.name}</span>
+              <span className="text-xs text-white/70">{user.email}</span>
             </div>
           </div>
 
@@ -66,6 +86,7 @@ export default function Sidebar() {
 
         <div className="p-3">
           <button
+          onClick={handleLogout}
             className="
               w-full
               flex
