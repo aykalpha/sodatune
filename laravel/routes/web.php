@@ -10,12 +10,20 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 
 // ログアウト
 Route::get('/logout', function () {
-    Auth::logout();                // Laravelのセッションを破棄
-    request()->session()->invalidate(); 
+    Auth::logout();
+    request()->session()->invalidate();
     request()->session()->regenerateToken();
-    return redirect('http://localhost:3000/login');
+    return redirect('http://localhost:3000/');
 });
 
-Route::middleware('auth')->get('/user-info', function () {
-    return response()->json(Auth::user());
+Route::get('/user-info', function () {
+    if (Auth::check()) {
+        return response()->json([
+            'name' => Auth::user()->name,
+            'email' => Auth::user()->email,
+            'avatar' => Auth::user()->avatar, // ← これがSidebarの img に使われる！
+        ]);
+    } else {
+        return response()->json(null, 401);
+    }
 });
