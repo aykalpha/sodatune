@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import SoilMoisture from "./pages/SoilMoisture";
 import Irrigation from "./pages/Irrigation";
@@ -7,31 +6,15 @@ import Weather from "./pages/Weather";
 import Journal from "./pages/Journal";
 import Manager from "./pages/Manager";
 import Login from "./pages/Login";
+import { useEffect } from "react";
+import { useUser } from "./hooks/useUser";
 
 function App() {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, setUser, getUser } = useUser();
 
   useEffect(() => {
-    fetch("http://localhost:8000/user-info", {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    getUser();
   }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen text-white">
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <BrowserRouter>
