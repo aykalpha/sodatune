@@ -27,7 +27,7 @@ const AvatarIcon = ({ src }: { src: string }) => (
   <img
     src={src}
     alt="avatar"
-    className="w-10 h-10 rounded-full border border-white"
+    className="w-10 h-10 rounded-full"
   />
 );
 
@@ -54,7 +54,7 @@ export default function Sidebar({ user }: SidebarProps) {
       <div className="flex flex-col h-full justify-between">
         {/* ユーザー情報部分 */}
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4 p-2">
             {/* ✅ AnimatedIconを使って画像を揺らす */}
             <AnimatedIcon
               Icon={() => (
