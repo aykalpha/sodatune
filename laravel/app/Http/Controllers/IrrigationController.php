@@ -19,8 +19,7 @@ class IrrigationController extends Controller
     public function store(Request $request)
     {
         // TODO:ログイン機能実装後に変更
-        // $userId = Auth::id();
-        $userId = 1;
+        $userId = Auth::id();
 
         $irrigation = Irrigation::create([
             'irrigated_at' => Carbon::now(),

@@ -12,9 +12,4 @@ class SoilMoisture extends Model
         'karakara_id',
         'notified',
     ];
-
-    public function karakara()
-    {
-        return $this->belongsTo(Karakara::class);
-    }
 }

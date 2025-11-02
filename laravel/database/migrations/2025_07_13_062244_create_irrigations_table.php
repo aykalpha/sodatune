@@ -12,7 +12,7 @@ class CreateIrrigationsTable extends Migration
         Schema::create('irrigations', function (Blueprint $table) {
             $table->id()->comment('潅水ID');
             $table->timestamp('irrigated_at')->comment('潅水日時');
-            $table->foreignId('user_id')->comment('ユーザーID')->constrained();
+            $table->string('user_id')->comment('ユーザーID')->foreign('user_id')->references('id')->on('users');
             $table->timestamp('created_at')->nullable()->comment('作成日時');
             $table->timestamp('updated_at')->nullable()->comment('更新日時');
         });

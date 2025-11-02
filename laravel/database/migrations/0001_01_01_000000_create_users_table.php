@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('avatar');
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -29,8 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('users');
     }
 };

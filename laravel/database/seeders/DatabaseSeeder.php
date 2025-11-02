@@ -10,10 +10,7 @@ class DatabaseSeeder extends Seeder
     {
         // 開発環境用
         $this->call([
-            KarakarasTableSeeder::class,
-            UsersTableSeeder::class,
-            // SoilMoisturesTableSeeder::class,
-            // IrrigationsTableSeeder::class,
+            // UsersTableSeeder::class,
         ]);
     }
 }
