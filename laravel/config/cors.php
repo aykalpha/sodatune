@@ -16,5 +16,5 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true, // ← Cookie送受信に必須！
+    'supports_credentials' => true,
 ];

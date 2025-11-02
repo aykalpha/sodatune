@@ -14,12 +14,13 @@ export default function IrrigationButton() {
 
   const handleClick = async () => {
       const now = new Date();
-  const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000); // UTC+9 に補正
-    axios
-      .post(IRRIGATIONS, { irrigated_at: jst })
-      .then(() => setFilled(true))
-      .catch(console.error);
+      const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+      axios
+        .post(IRRIGATIONS, { irrigated_at: jst }, { withCredentials: true })
+        .then(() => setFilled(true))
+        .catch(console.error);
   };
+
   const handleTransitionEnd = () => {
     if (filled) {
       navigate(0);

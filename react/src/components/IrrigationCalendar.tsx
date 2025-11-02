@@ -12,8 +12,10 @@ export default function IrrigationCalendar() {
   const [irrigations, setIrrigations] = useState<Irrigation[]>([]);
   const [hovered, setHovered] = useState<string | null>(null);
 
+  // @TODO 上位層で実施（重複してるため）
   useEffect(() => {
-    axios.get(IRRIGATIONS)
+    axios
+      .get(IRRIGATIONS, { withCredentials: true })
       .then(res => setIrrigations(res.data))
       .catch(console.error);
   }, []);

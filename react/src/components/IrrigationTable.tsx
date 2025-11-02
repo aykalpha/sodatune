@@ -11,7 +11,7 @@ export default function IrrigationTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(IRRIGATIONS);
+        const response = await axios.get(IRRIGATIONS, { withCredentials: true })
         setIrrigations(response.data as Irrigation[]);
       } catch (error) {
         console.error(error);
