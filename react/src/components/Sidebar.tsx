@@ -42,11 +42,11 @@ export default function Sidebar({ user }: SidebarProps) {
 
   const menuItems = [
     { icon: ScienceIcon, label: "分析", path: "/" },
-    { icon: WbSunnyIcon, label: "天気", path: "/weather" },
+    // { icon: WbSunnyIcon, label: "天気", path: "/weather" },
     { icon: EditNoteIcon, label: "記録", path: "/journal" },
-    { icon: AssignmentTurnedInIcon, label: "管理", path: "/manager" },
+    // { icon: AssignmentTurnedInIcon, label: "管理", path: "/manager" },
     { icon: OpacityIcon, label: "潅水", path: "/irrigation" },
-    { icon: AgricultureIcon, label: "収穫", path: "/harvest" },
+    // { icon: AgricultureIcon, label: "収穫", path: "/harvest" },
   ];
 
   return (
